@@ -15,7 +15,7 @@ function Tile({ title, href, desc }: { title: string; href: string; desc: string
 export default function HomePage() {
   return (
     <div className="grid" style={{ gap: 16 }}>
-      <h1 className="h1">Stake Pricing Sandbox</h1>
+      <h1 className="h1">Stake Sizing Sandbox</h1>
       <div className="small">
         Choose a calculator, enter odds / stakes / promos, and see your net win outcomes.
       </div>
@@ -46,9 +46,9 @@ export default function HomePage() {
       <div className="card">
         <div className="h2">Notes</div>
         <ul className="small" style={{ marginTop: 8, paddingLeft: 18 }}>
-          <li>All pages save your current draft in <span className="kbd">localStorage</span>.</li>
-          <li>Bonus Bet “efficiency” is computed as <span className="kbd">netWin / totalBB</span> when bonus bets are present.</li>
-          <li>No backend needed — everything runs in the browser.</li>
+          <li>All pages save your current draft, unless you clear your browser history</li>
+          <li>Bonus Bet 'efficiency' is computed based on Bonus Bet usage vs. lowest guaranteed win</li>
+          <li>Premium version securely stores your information long-term</li>
         </ul>
       </div>
     </div>
