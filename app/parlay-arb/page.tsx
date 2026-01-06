@@ -43,6 +43,8 @@ type SlipUI = {
 type ParlayGroupUI = {
   id: string
   label: string
+  market: string
+  event: string
   headerBook?: string
   headerOddsAmerican?: number
   parlayDesc: string
@@ -80,6 +82,8 @@ function newGroupUI(partial?: Partial<ParlayGroupUI>): ParlayGroupUI {
   return {
     id: crypto.randomUUID(),
     label: 'Team Mix',
+    market: '',
+    event: '',
     headerBook: '',
     headerOddsAmerican: 0,
     parlayDesc: '',
@@ -88,6 +92,7 @@ function newGroupUI(partial?: Partial<ParlayGroupUI>): ParlayGroupUI {
     ...partial,
   }
 }
+
 
 /* =======================
    Parsing
@@ -105,6 +110,8 @@ function toParlayGroups(groupsUI: ParlayGroupUI[]): ParlayGroup[] {
     return {
       id: g.id,
       label: g.label,
+      market: g.market,
+      event: g.event,
       headerBook: g.headerBook,
       headerOddsAmerican: g.headerOddsAmerican,
       parlayDesc: g.parlayDesc,
@@ -132,6 +139,7 @@ function toParlayGroups(groupsUI: ParlayGroupUI[]): ParlayGroup[] {
     }
   })
 }
+
 
 /* =======================
    Page
@@ -305,6 +313,25 @@ export default function ParlayArbPage() {
               </div>
 
               <div style={{ marginBottom: 10 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                  <Field label='Market'>
+                    <input
+                      value={g.market}
+                      onChange={(e) => updateGroup(g.id, { market: e.target.value })}
+                      placeholder='Parlay / SGP / ML / etc'
+                      style={inputStyle}
+                    />
+                  </Field>
+
+                  <Field label='Event'>
+                    <input
+                      value={g.event}
+                      onChange={(e) => updateGroup(g.id, { event: e.target.value })}
+                      placeholder='CHI-LAC'
+                      style={inputStyle}
+                    />
+                  </Field>
+                </div>
                 <Field label='Bucket label'>
                   <input
                     value={g.label}

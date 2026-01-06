@@ -1,41 +1,41 @@
 // app/simple-arb/page.tsx
-'use client';
+'use client'
 
-import React, { useEffect, useMemo, useState } from 'react';
-import type { LegInput, PromoType, Side, SlipInput } from '@/lib/arbMath';
-import { computeArb, round2 } from '@/lib/arbMath';
-import { computeBBEfficiencyFromArb } from '@/lib/bbEfficiency';
+import React, { useEffect, useMemo, useState } from 'react'
+import type { LegInput, PromoType, Side, SlipInput } from '@/lib/arbMath'
+import { computeArb, round2 } from '@/lib/arbMath'
+import { computeBBEfficiencyFromArb } from '@/lib/bbEfficiency'
 
 type SlipUI = {
-  id: string;
-  book: string;
-  oddsAmerican: string; // <- string for smooth typing
-  stake: string;        // <- string for smooth typing
+  id: string
+  book: string
+  oddsAmerican: string // <- string for smooth typing
+  stake: string        // <- string for smooth typing
   promo: {
-    type: PromoType;
-    boostPct: string;   // <- string for smooth typing
-    bbValue: string;    // <- string for smooth typing
-    note: string;
-  };
-  payoutOverride: string; // <- string for smooth typing
-  note: string;
-};
+    type: PromoType
+    boostPct: string   // <- string for smooth typing
+    bbValue: string    // <- string for smooth typing
+    note: string
+  }
+  payoutOverride: string // <- string for smooth typing
+  note: string
+}
 
 type LegUI = {
-  side: Side;
-  team: string;
-  market: string;
-  event: string;
-  note: string;
-  slip: SlipUI; // Simple arb = exactly 1 slip per leg
-};
+  side: Side
+  team: string
+  market: string
+  event: string
+  note: string
+  slip: SlipUI // Simple arb = exactly 1 slip per leg
+}
 
 type DraftUI = {
-  dog: LegUI;
-  fav: LegUI;
-};
+  dog: LegUI
+  fav: LegUI
+}
 
-const LS_KEY = 'simple-arb-draft-v4';
+const LS_KEY = 'simple-arb-draft-v4'
 
 const PROMO_LABELS: Record<PromoType, string> = {
   none: 'None',
@@ -43,7 +43,7 @@ const PROMO_LABELS: Record<PromoType, string> = {
   odds_boost: 'Odds Boost (+% odds)',
   bonus_bet: 'Bonus Bet / Free Bet (stake not returned)',
   insured: 'Insured / Risk-Free (treat losing stake as refunded)',
-};
+}
 
 function newSlipUI(): SlipUI {
   return {
@@ -54,31 +54,31 @@ function newSlipUI(): SlipUI {
     promo: { type: 'none', boostPct: '0', bbValue: '0', note: '' },
     payoutOverride: '',
     note: '',
-  };
+  }
 }
 
 function newLegUI(side: Side): LegUI {
   return {
     side,
     team: '',
-    market: 'ML',
+    market: '',
     event: '',
     note: '',
     slip: newSlipUI(),
-  };
+  }
 }
 
 /* ---------- parsing ---------- */
 
 function parseNum(raw: string, fallback = 0): number {
-  const s = raw.trim();
-  if (s === '' || s === '-' || s === '+') return fallback;
-  const n = Number(s);
-  return Number.isFinite(n) ? n : fallback;
+  const s = raw.trim()
+  if (s === '' || s === '-' || s === '+') return fallback
+  const n = Number(s)
+  return Number.isFinite(n) ? n : fallback
 }
 
 function toSlipInput(s: SlipUI): SlipInput {
-  const promoType = s.promo?.type ?? 'none';
+  const promoType = s.promo?.type ?? 'none'
 
   return {
     id: s.id,
@@ -96,7 +96,7 @@ function toSlipInput(s: SlipUI): SlipInput {
     },
     payoutOverride: s.payoutOverride.trim() === '' ? null : parseNum(s.payoutOverride, 0),
     note: s.note ?? '',
-  };
+  }
 }
 
 function toLegInput(leg: LegUI): LegInput {
@@ -107,40 +107,40 @@ function toLegInput(leg: LegUI): LegInput {
     event: leg.event,
     note: leg.note,
     slips: [toSlipInput(leg.slip)],
-  };
+  }
 }
 
 export default function SimpleArbPage() {
   const [draftUI, setDraftUI] = useState<DraftUI>({
     dog: newLegUI('dog'),
     fav: newLegUI('fav'),
-  });
+  })
 
   /* ---------- persistence ---------- */
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(LS_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw) as DraftUI;
-      if (parsed?.dog?.slip && parsed?.fav?.slip) setDraftUI(parsed);
+      const raw = localStorage.getItem(LS_KEY)
+      if (!raw) return
+      const parsed = JSON.parse(raw) as DraftUI
+      if (parsed?.dog?.slip && parsed?.fav?.slip) setDraftUI(parsed)
     } catch {}
-  }, []);
+  }, [])
 
   useEffect(() => {
     try {
-      localStorage.setItem(LS_KEY, JSON.stringify(draftUI));
+      localStorage.setItem(LS_KEY, JSON.stringify(draftUI))
     } catch {}
-  }, [draftUI]);
+  }, [draftUI])
 
   /* ---------- computed ---------- */
 
   const legs: [LegInput, LegInput] = useMemo(() => {
-    return [toLegInput(draftUI.dog), toLegInput(draftUI.fav)];
-  }, [draftUI]);
+    return [toLegInput(draftUI.dog), toLegInput(draftUI.fav)]
+  }, [draftUI])
 
-  const computed = useMemo(() => computeArb(legs), [legs]);
-  const bb = useMemo(() => computeBBEfficiencyFromArb(legs), [legs]);
+  const computed = useMemo(() => computeArb(legs), [legs])
+  const bb = useMemo(() => computeBBEfficiencyFromArb(legs), [legs])
 
   /* ---------- update helpers ---------- */
 
@@ -151,7 +151,7 @@ export default function SimpleArbPage() {
         ...prev[legKey],
         ...patch,
       },
-    }));
+    }))
   }
 
   function updateSlip(legKey: 'dog' | 'fav', patch: Partial<SlipUI>) {
@@ -168,11 +168,11 @@ export default function SimpleArbPage() {
           },
         },
       },
-    }));
+    }))
   }
 
   function reset() {
-    setDraftUI({ dog: newLegUI('dog'), fav: newLegUI('fav') });
+    setDraftUI({ dog: newLegUI('dog'), fav: newLegUI('fav') })
   }
 
   return (
@@ -245,7 +245,7 @@ export default function SimpleArbPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 /* =======================
@@ -259,22 +259,44 @@ function SimpleLegCard({
   onLegChange,
   onSlipChange,
 }: {
-  title: string;
-  leg: LegUI;
-  computedSlip: any;
-  onLegChange: (patch: Partial<LegUI>) => void;
-  onSlipChange: (patch: Partial<SlipUI>) => void;
+  title: string
+  leg: LegUI
+  computedSlip: any
+  onLegChange: (patch: Partial<LegUI>) => void
+  onSlipChange: (patch: Partial<SlipUI>) => void
 }) {
-  const slip = leg.slip;
-  const promoType = slip.promo.type;
-  const needsBoost = promoType === 'profit_boost' || promoType === 'odds_boost';
-  const isBB = promoType === 'bonus_bet';
+  const slip = leg.slip
+  const promoType = slip.promo.type
+  const needsBoost = promoType === 'profit_boost' || promoType === 'odds_boost'
+  const isBB = promoType === 'bonus_bet'
 
   return (
     <div style={{ border: '1px solid #ddd', borderRadius: 12, padding: 14 }}>
       <div style={{ fontSize: 18, fontWeight: 900 }}>{title}</div>
       <div style={{ fontSize: 13, opacity: 0.75, marginTop: 4 }}>One stake line on this side.</div>
 
+      {/* ✅ LEG META */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
+        <Field label='Market'>
+          <input
+            value={leg.market}
+            onChange={(e) => onLegChange({ market: e.target.value })}
+            placeholder='ML / Spread / Total'
+            style={inputStyle}
+          />
+        </Field>
+
+        <Field label='Event'>
+          <input
+            value={leg.event}
+            onChange={(e) => onLegChange({ event: e.target.value })}
+            placeholder='WAS-PHI'
+            style={inputStyle}
+          />
+        </Field>
+      </div>
+
+      {/* SLIP */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
         <Field label='Book'>
           <input value={slip.book} onChange={(e) => onSlipChange({ book: e.target.value })} style={inputStyle} />
@@ -306,7 +328,7 @@ function SimpleLegCard({
           <select
             value={promoType}
             onChange={(e) => {
-              const next = e.target.value as PromoType;
+              const next = e.target.value as PromoType
               onSlipChange({
                 promo: {
                   ...slip.promo,
@@ -314,7 +336,7 @@ function SimpleLegCard({
                   boostPct: next === 'profit_boost' || next === 'odds_boost' ? slip.promo.boostPct : '0',
                   bbValue: next === 'bonus_bet' ? slip.promo.bbValue : '0',
                 },
-              });
+              })
             }}
             style={inputStyle}
           >
@@ -361,14 +383,14 @@ function SimpleLegCard({
           />
         </Field>
 
-        {/* ✅ Net Payout displayed below payout override */}
         <div style={{ marginTop: 8, fontSize: 13, opacity: 0.85 }}>
           Net Payout (this leg): <b>${(computedSlip?.netPayout ?? 0).toFixed(2)}</b>
         </div>
       </div>
     </div>
-  );
+  )
 }
+
 
 /* =======================
    UI bits
@@ -380,7 +402,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <div style={{ fontSize: 12, opacity: 0.8, marginBottom: 4 }}>{label}</div>
       {children}
     </div>
-  );
+  )
 }
 
 function OutcomeCard({ label, title, value }: { label: string; title: string; value: number }) {
@@ -390,7 +412,7 @@ function OutcomeCard({ label, title, value }: { label: string; title: string; va
       <div style={{ fontSize: 34, fontWeight: 900, lineHeight: 1.05 }}>${round2(value).toFixed(2)}</div>
       <div style={{ fontSize: 13, opacity: 0.75, marginTop: 4 }}>{title}</div>
     </div>
-  );
+  )
 }
 
 function Badge({ label, value }: { label: string; value: string }) {
@@ -399,7 +421,7 @@ function Badge({ label, value }: { label: string; value: string }) {
       <div style={{ fontSize: 11, opacity: 0.7 }}>{label}</div>
       <div style={{ fontSize: 14, fontWeight: 900 }}>{value}</div>
     </div>
-  );
+  )
 }
 
 function MiniCard({ label, value }: { label: string; value: string }) {
@@ -408,7 +430,7 @@ function MiniCard({ label, value }: { label: string; value: string }) {
       <div style={{ fontSize: 12, opacity: 0.75 }}>{label}</div>
       <div style={{ fontWeight: 900 }}>{value}</div>
     </div>
-  );
+  )
 }
 
 const inputStyle: React.CSSProperties = {
@@ -417,7 +439,7 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 10,
   padding: '8px 10px',
   fontSize: 16,
-};
+}
 
 const btn: React.CSSProperties = {
   padding: '10px 14px',
@@ -425,4 +447,4 @@ const btn: React.CSSProperties = {
   border: '1px solid #ddd',
   background: 'white',
   cursor: 'pointer',
-};
+}
