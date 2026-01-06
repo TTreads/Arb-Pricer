@@ -5,6 +5,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import type { LegInput, PromoType, Side, SlipInput } from '@/lib/arbMath'
 import { computeArb, round2 } from '@/lib/arbMath'
 import { computeBBEfficiencyFromArb } from '@/lib/bbEfficiency'
+import { marketOrEventMismatch } from '@/lib/marketEventMismatch'
+
 
 /* =======================
    UI Types (string inputs)
@@ -136,6 +138,7 @@ export default function SimpleArbPage() {
     dog: newLegUI('dog'),
     fav: newLegUI('fav'),
   })
+  const mismatch = marketOrEventMismatch(draftUI.dog, draftUI.fav)
 
   /* ---------- persistence ---------- */
 
@@ -220,6 +223,7 @@ export default function SimpleArbPage() {
           computedSlip={computed.legs[1].slips[0]}
           onLegChange={(p) => updateLeg('fav', p)}
           onSlipChange={(p) => updateSlip('fav', p)}
+          showMismatchWarning={mismatch.anyMismatch}
         />
       </div>
 
@@ -279,13 +283,16 @@ function SimpleLegCard({
   computedSlip,
   onLegChange,
   onSlipChange,
+  showMismatchWarning,
 }: {
   title: string
   leg: LegUI
   computedSlip: any
   onLegChange: (patch: Partial<LegUI>) => void
   onSlipChange: (patch: Partial<SlipUI>) => void
+  showMismatchWarning?: boolean
 }) {
+
   const slip = leg.slip
   const promoType = slip.promo.type
   const needsBoost = promoType === 'profit_boost' || promoType === 'odds_boost'
@@ -320,6 +327,9 @@ function SimpleLegCard({
             placeholder='WAS-PHI'
             style={inputStyle}
           />
+          {showMismatchWarning && (
+              <div style={cautionStyle}>CAUTION: Events don't match</div>
+            )}
         </Field>
       </div>
 
@@ -466,6 +476,17 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 10,
   padding: '8px 10px',
   fontSize: 16,
+}
+
+const cautionStyle: React.CSSProperties = {
+  marginTop: 6,
+  padding: '8px 10px',
+  borderRadius: 10,
+  border: '1px solid #f3b4b4',
+  background: '#ffecec',
+  color: '#8a1f1f',
+  fontSize: 13,
+  fontWeight: 700,
 }
 
 const btn: React.CSSProperties = {
