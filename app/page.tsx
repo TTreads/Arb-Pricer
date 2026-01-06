@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
 function Tile({ title, href, desc }: { title: string; href: string; desc: string }) {
   return (
@@ -9,7 +9,7 @@ function Tile({ title, href, desc }: { title: string; href: string; desc: string
         Open: <span className="kbd">{href}</span>
       </div>
     </Link>
-  );
+  )
 }
 
 export default function HomePage() {
@@ -21,6 +21,11 @@ export default function HomePage() {
       </div>
 
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+        <Tile
+          title="Pick Sizer"
+          href="/pick-sizer"
+          desc="Calculate the stakes per pick"
+        />
         <Tile
           title="Simple Arb (2-leg)"
           href="/simple-arb"
@@ -34,7 +39,7 @@ export default function HomePage() {
         <Tile
           title="Parlay Arb (Buckets)"
           href="/parlay-arb"
-          desc="Mutually exclusive outcome buckets; each bucket can have multiple stakes."
+          desc="Mutually exclusive outcome buckets each bucket can have multiple stakes."
         />
       </div>
 
@@ -47,5 +52,5 @@ export default function HomePage() {
         </ul>
       </div>
     </div>
-  );
+  )
 }
