@@ -39,6 +39,10 @@ type DraftUI = {
   fav: LegUI
 }
 
+/* =======================
+   Constants
+======================= */
+
 const LS_KEY = 'multi-stake-arb-draft-v2'
 
 const PROMO_LABELS: Record<PromoType, string> = {
@@ -48,6 +52,15 @@ const PROMO_LABELS: Record<PromoType, string> = {
   bonus_bet: 'Bonus Bet / Free Bet (stake not returned)',
   insured: 'Insured / Risk-Free (treat losing stake as refunded)',
 }
+
+const MARKET_OPTIONS = [
+  { value: '', label: 'Select…' },
+  { value: 'ML', label: 'ML' },
+  { value: 'SPREAD:+OVER', label: 'SPREAD:(+)OVER' },
+  { value: 'SPREAD:-UNDER', label: 'SPREAD:(-)UNDER' },
+  { value: 'TOTAL:+OVER', label: 'TOTAL:(+)OVER' },
+  { value: 'TOTAL:-UNDER', label: 'TOTAL:(-)UNDER' },
+] as const
 
 /* =======================
    Builders
@@ -321,8 +334,19 @@ function LegPanel({
           <input value={leg.team} onChange={(e) => onLegChange({ team: e.target.value })} style={inputStyle} />
         </Field>
         <Field label='Market'>
-          <input value={leg.market} onChange={(e) => onLegChange({ market: e.target.value })} style={inputStyle} />
+          <select
+            value={leg.market}
+            onChange={(e) => onLegChange({ market: e.target.value })}
+            style={inputStyle}
+          >
+            {MARKET_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
         </Field>
+
         <Field label='Event'>
           <input value={leg.event} onChange={(e) => onLegChange({ event: e.target.value })} style={inputStyle} />
         </Field>

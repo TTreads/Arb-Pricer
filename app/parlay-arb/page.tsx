@@ -21,6 +21,16 @@ const PROMO_LABELS: Record<PromoType, string> = {
   insured: 'Insured / Risk-Free (treat losing stake as refunded)',
 }
 
+const MARKET_OPTIONS = [
+  { value: '', label: 'Select…' },
+  { value: 'ML', label: 'ML' },
+  { value: 'SPREAD:+OVER', label: 'SPREAD:(+)OVER' },
+  { value: 'SPREAD:-UNDER', label: 'SPREAD:(-)UNDER' },
+  { value: 'TOTAL:+OVER', label: 'TOTAL:(+)OVER' },
+  { value: 'TOTAL:-UNDER', label: 'TOTAL:(-)UNDER' },
+] as const
+
+
 /* =======================
    UI Types (string inputs)
 ======================= */
@@ -315,14 +325,18 @@ export default function ParlayArbPage() {
               <div style={{ marginBottom: 10 }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
                   <Field label='Market'>
-                    <input
+                    <select
                       value={g.market}
                       onChange={(e) => updateGroup(g.id, { market: e.target.value })}
-                      placeholder='Parlay / SGP / ML / etc'
                       style={inputStyle}
-                    />
+                    >
+                      {MARKET_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
                   </Field>
-
                   <Field label='Event'>
                     <input
                       value={g.event}

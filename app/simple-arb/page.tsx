@@ -6,6 +6,10 @@ import type { LegInput, PromoType, Side, SlipInput } from '@/lib/arbMath'
 import { computeArb, round2 } from '@/lib/arbMath'
 import { computeBBEfficiencyFromArb } from '@/lib/bbEfficiency'
 
+/* =======================
+   UI Types (string inputs)
+======================= */
+
 type SlipUI = {
   id: string
   book: string
@@ -35,6 +39,10 @@ type DraftUI = {
   fav: LegUI
 }
 
+/* =======================
+   Constants
+======================= */
+
 const LS_KEY = 'simple-arb-draft-v4'
 
 const PROMO_LABELS: Record<PromoType, string> = {
@@ -44,6 +52,19 @@ const PROMO_LABELS: Record<PromoType, string> = {
   bonus_bet: 'Bonus Bet / Free Bet (stake not returned)',
   insured: 'Insured / Risk-Free (treat losing stake as refunded)',
 }
+
+const MARKET_OPTIONS = [
+  { value: '', label: 'Select…' },
+  { value: 'ML', label: 'ML' },
+  { value: 'SPREAD:+OVER', label: 'SPREAD:(+)OVER' },
+  { value: 'SPREAD:-UNDER', label: 'SPREAD:(-)UNDER' },
+  { value: 'TOTAL:+OVER', label: 'TOTAL:(+)OVER' },
+  { value: 'TOTAL:-UNDER', label: 'TOTAL:(-)UNDER' },
+] as const
+
+/* =======================
+   Builders
+======================= */
 
 function newSlipUI(): SlipUI {
   return {
@@ -278,13 +299,19 @@ function SimpleLegCard({
       {/* ✅ LEG META */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
         <Field label='Market'>
-          <input
+          <select
             value={leg.market}
             onChange={(e) => onLegChange({ market: e.target.value })}
-            placeholder='ML / Spread / Total'
             style={inputStyle}
-          />
+          >
+            {MARKET_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
         </Field>
+
 
         <Field label='Event'>
           <input
