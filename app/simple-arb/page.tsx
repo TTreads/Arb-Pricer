@@ -148,13 +148,13 @@ export default function SimpleArbPage() {
       if (!raw) return
       const parsed = JSON.parse(raw) as DraftUI
       if (parsed?.dog?.slip && parsed?.fav?.slip) setDraftUI(parsed)
-    } catch {}
+    } catch { }
   }, [])
 
   useEffect(() => {
     try {
       localStorage.setItem(LS_KEY, JSON.stringify(draftUI))
-    } catch {}
+    } catch { }
   }, [draftUI])
 
   /* ---------- computed ---------- */
@@ -169,13 +169,25 @@ export default function SimpleArbPage() {
   /* ---------- update helpers ---------- */
 
   function updateLeg(legKey: 'dog' | 'fav', patch: Partial<LegUI>) {
-    setDraftUI((prev) => ({
-      ...prev,
-      [legKey]: {
-        ...prev[legKey],
-        ...patch,
-      },
-    }))
+    setDraftUI((prev) => {
+      // If updating 'event', sync it to BOTH sides
+      if ('event' in patch) {
+        return {
+          ...prev,
+          dog: { ...prev.dog, event: patch.event! },
+          fav: { ...prev.fav, event: patch.event! },
+        }
+      }
+
+      // Otherwise just update the target leg
+      return {
+        ...prev,
+        [legKey]: {
+          ...prev[legKey],
+          ...patch,
+        },
+      }
+    })
   }
 
   function updateSlip(legKey: 'dog' | 'fav', patch: Partial<SlipUI>) {
@@ -328,8 +340,8 @@ function SimpleLegCard({
             style={inputStyle}
           />
           {showMismatchWarning && (
-              <div style={cautionStyle}>CAUTION: Events don't match</div>
-            )}
+            <div style={cautionStyle}>CAUTION: Events don't match</div>
+          )}
         </Field>
       </div>
 
