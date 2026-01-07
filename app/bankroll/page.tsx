@@ -97,6 +97,11 @@ export default function BankrollPage() {
   const [nameDraft, setNameDraft] = useState<string>('')
   const [balDraft, setBalDraft] = useState<string>('0')
 
+  // Individual sportsbook cash flow
+  const [bookCashId, setBookCashId] = useState<string | null>(null)
+  const [bookCashMode, setBookCashMode] = useState<'none' | 'deposit' | 'withdraw'>('none')
+  const [bookCashAmtDraft, setBookCashAmtDraft] = useState<string>('')
+
   /* ---------- load ---------- */
   useEffect(() => {
     const ls = loadBooksLS()
@@ -126,10 +131,10 @@ export default function BankrollPage() {
       }
       saveBooksLS(payload)
       saveBankrollSize(totalBankroll)
-    } catch {}
+    } catch { }
   }, [cashroll, books, totalBankroll])
 
-  /* ---------- cash actions ---------- */
+  /* ---------- cash actions (Cashroll) ---------- */
 
   function startCash(mode: 'deposit' | 'withdraw') {
     setCashMode(mode)
@@ -157,6 +162,43 @@ export default function BankrollPage() {
 
   const cashActionColor =
     cashMode === 'deposit' ? '#111' : cashMode === 'withdraw' ? '#b42318' : '#111'
+
+  /* ---------- sportsbook cash actions ---------- */
+
+  function startBookCash(id: string, mode: 'deposit' | 'withdraw') {
+    setBookCashId(id)
+    setBookCashMode(mode)
+    setBookCashAmtDraft('')
+  }
+
+  function cancelBookCash() {
+    setBookCashId(null)
+    setBookCashMode('none')
+    setBookCashAmtDraft('')
+  }
+
+  function confirmBookCash() {
+    if (!bookCashId) return
+    const amtAbs = Math.abs(parseNum(bookCashAmtDraft, 0))
+    if (amtAbs <= 0) return
+
+    setBooks((prev) =>
+      prev.map((b) => {
+        if (b.id !== bookCashId) return b
+        const cur = Number.isFinite(b.balance) ? b.balance : 0
+        let next = cur
+        if (bookCashMode === 'deposit') next = round2(cur + amtAbs)
+        if (bookCashMode === 'withdraw') next = round2(Math.max(0, cur - amtAbs))
+        return { ...b, balance: next }
+      })
+    )
+
+    cancelBookCash()
+  }
+
+  const bookCashActionColor =
+    bookCashMode === 'deposit' ? '#111' : bookCashMode === 'withdraw' ? '#b42318' : '#111'
+
 
   /* ---------- add sportsbook actions ---------- */
 
@@ -210,7 +252,7 @@ export default function BankrollPage() {
         <div style={{ fontSize: 12, opacity: 0.7, fontWeight: 700 }}>Total Bankroll</div>
         <div style={{ fontSize: 44, fontWeight: 900, marginTop: 2 }}>{fmtMoney(totalBankroll)}</div>
 
-        <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
           <MiniStat label='Cashroll' value={fmtMoney(cashroll)} />
 
           {books.length ? (
@@ -289,33 +331,74 @@ export default function BankrollPage() {
           ) : null}
         </div>
 
-        {/* Sportsbook blocks (title + remove only) */}
+        {/* Sportsbook blocks */}
         <div style={{ marginTop: 12, display: 'grid', gap: 10 }}>
-          {books.map((b) => (
-            <div
-              key={b.id}
-              style={{
-                border: '1px solid #eee',
-                borderRadius: 12,
-                padding: 12,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: 12,
-              }}
-            >
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 18, fontWeight: 900 }}>{b.name}</div>
-                <div style={{ fontSize: 13, opacity: 0.8, marginTop: 4 }}>
-                  Starting balance: <b>{fmtMoney(b.balance ?? 0)}</b>
-                </div>
-              </div>
+          {books.map((b) => {
+            const isEditing = bookCashId === b.id && bookCashMode !== 'none'
+            return (
+              <div
+                key={b.id}
+                style={{
+                  border: '1px solid #eee',
+                  borderRadius: 12,
+                  padding: 12,
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 18, fontWeight: 900 }}>{b.name}</div>
+                    <div style={{ fontSize: 13, opacity: 0.8, marginTop: 4 }}>
+                      Balance: <b>{fmtMoney(b.balance ?? 0)}</b>
+                    </div>
+                  </div>
 
-              <button onClick={() => removeBook(b.id)} style={btnDanger}>
-                Remove
-              </button>
-            </div>
-          ))}
+                  {!isEditing ? (
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <button onClick={() => startBookCash(b.id, 'deposit')} style={btn}>
+                        Deposit
+                      </button>
+                      <button onClick={() => startBookCash(b.id, 'withdraw')} style={btn}>
+                        Withdraw
+                      </button>
+                      <button onClick={() => removeBook(b.id)} style={btnDanger}>
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                      <input
+                        value={bookCashAmtDraft}
+                        onChange={(e) => setBookCashAmtDraft(e.target.value)}
+                        placeholder='Amount'
+                        style={{ ...inputStyle, width: 140, color: bookCashActionColor, fontWeight: 900 }}
+                        autoFocus
+                      />
+                      <button onClick={confirmBookCash} style={btn}>
+                        Confirm
+                      </button>
+                      <button onClick={cancelBookCash} style={btn}>
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {isEditing && (
+                  <div style={{ marginTop: 8, fontSize: 12, opacity: 0.75 }}>
+                    {bookCashMode === 'deposit' ? (
+                      <>
+                        Adding to <b>{b.name}</b>.
+                      </>
+                    ) : (
+                      <>
+                        Withdrawing from <b>{b.name}</b>.
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
 
         {/* Add new sportsbook */}
