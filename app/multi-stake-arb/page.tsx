@@ -160,13 +160,13 @@ export default function MultiStakeArbPage() {
       if (!raw) return
       const parsed = JSON.parse(raw) as DraftUI
       if (parsed?.dog?.slips && parsed?.fav?.slips) setDraftUI(parsed)
-    } catch {}
+    } catch { }
   }, [])
 
   useEffect(() => {
     try {
       localStorage.setItem(LS_KEY, JSON.stringify(draftUI))
-    } catch {}
+    } catch { }
   }, [draftUI])
 
   /* ---------- computed ---------- */
@@ -181,13 +181,25 @@ export default function MultiStakeArbPage() {
   /* ---------- updates ---------- */
 
   function updateLeg(legKey: 'dog' | 'fav', patch: Partial<LegUI>) {
-    setDraftUI((prev) => ({
-      ...prev,
-      [legKey]: {
-        ...prev[legKey],
-        ...patch,
-      },
-    }))
+    setDraftUI((prev) => {
+      // If updating 'event', sync it to BOTH sides
+      if ('event' in patch) {
+        return {
+          ...prev,
+          dog: { ...prev.dog, event: patch.event! },
+          fav: { ...prev.fav, event: patch.event! },
+        }
+      }
+
+      // Otherwise just update the target leg
+      return {
+        ...prev,
+        [legKey]: {
+          ...prev[legKey],
+          ...patch,
+        },
+      }
+    })
   }
 
   function updateSlip(legKey: 'dog' | 'fav', slipId: string, patch: Partial<SlipUI>) {
@@ -196,13 +208,13 @@ export default function MultiStakeArbPage() {
       const slips = leg.slips.map((s) =>
         s.id === slipId
           ? {
-              ...s,
-              ...patch,
-              promo: {
-                ...s.promo,
-                ...(patch.promo ?? {}),
-              },
-            }
+            ...s,
+            ...patch,
+            promo: {
+              ...s.promo,
+              ...(patch.promo ?? {}),
+            },
+          }
           : s,
       )
       return { ...prev, [legKey]: { ...leg, slips } }

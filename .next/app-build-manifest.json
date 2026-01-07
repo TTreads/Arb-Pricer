@@ -15,6 +15,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/simple-arb/page.js"
+    ],
+    "/multi-stake-arb/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/multi-stake-arb/page.js"
     ]
   }
 }
