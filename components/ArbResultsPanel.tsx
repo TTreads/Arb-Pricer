@@ -8,22 +8,22 @@ import { fmtMoney, fmtX, minNumber, maxNumber, get2LegOutcomeCards, getParlayOut
 
 type Props =
   | {
-      variant: 'two-leg';
-      title?: string;
-      computed: ArbComputed;
-      bb?: BBEfficiencyResult | null;
-      leftLabel?: string;
-      rightLabel?: string;
-      note?: string;
-    }
+    variant: 'two-leg';
+    title?: string;
+    computed: ArbComputed;
+    bb?: BBEfficiencyResult | null;
+    leftLabel?: string;
+    rightLabel?: string;
+    note?: string;
+  }
   | {
-      variant: 'parlay';
-      title?: string;
-      computed: ParlayArbComputed;
-      bb?: BBEfficiencyResult | null;
-      bucketLabels?: string[];
-      note?: string;
-    };
+    variant: 'parlay';
+    title?: string;
+    computed: ParlayArbComputed;
+    bb?: BBEfficiencyResult | null;
+    bucketLabels?: string[];
+    note?: string;
+  };
 
 export function ArbResultsPanel(props: Props) {
   const title = props.title ?? 'Results';
@@ -88,7 +88,7 @@ export function ArbResultsPanel(props: Props) {
                       : props.rightLabel ?? 'Right'}
                 </div>
                 <div style={{ fontWeight: 900 }}>
-                  {fmtMoney(v)} → {fmtX(props.bb.efficiencies[i])}
+                  {fmtMoney(v)} → {fmtX(props.bb!.efficiencies[i])}
                 </div>
               </div>
             ))}

@@ -45,6 +45,7 @@ export default function HomePage() {
 
       <div className="card">
         <div className="h2">Notes</div>
+
         <ul className="small" style={{ marginTop: 8, paddingLeft: 18 }}>
           <li>All pages save your current draft, unless you clear your browser history</li>
           <li>Bonus Bet 'efficiency' is computed based on Bonus Bet usage vs. lowest guaranteed win</li>

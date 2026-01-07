@@ -1,8 +1,0 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/parlay-arb/page": "app/parlay-arb/page.js",
-  "/simple-arb/page": "app/simple-arb/page.js",
-  "/bankroll/page": "app/bankroll/page.js",
-  "/multi-stake-arb/page": "app/multi-stake-arb/page.js",
-  "/pick-sizer/page": "app/pick-sizer/page.js"
-}
