@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Arb Pricer',
+  title: 'ambience sports',
   description: 'Simple calculators for arb / multi-stake / parlay arb.',
 };
 
@@ -13,8 +13,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header style={{ borderBottom: '1px solid #eee' }}>
           <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Link href="/" style={{ fontWeight: 900 }}>Arb Pricer</Link>
+            <Link href="/" style={{ fontWeight: 900 }}>ambience sports</Link>
             <nav style={{ display: 'flex', gap: 12, fontSize: 14 }}>
+              <Link href="/pick-sizer">Pick Sizer</Link>
               <Link href="/simple-arb">Simple Arb</Link>
               <Link href="/multi-stake-arb">Multi-Stake Arb</Link>
               <Link href="/parlay-arb">Parlay Arb</Link>
