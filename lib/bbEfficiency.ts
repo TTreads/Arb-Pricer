@@ -1,3 +1,4 @@
+// /lib/bbEfficiency.ts
 import type { LegInput } from '@/lib/arbMath';
 import type { ParlayGroup } from '@/lib/parlayArbMath';
 import { computeArb, round2 } from '@/lib/arbMath';
