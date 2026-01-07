@@ -2,6 +2,20 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { Noto_Serif, Plus_Jakarta_Sans } from 'next/font/google';
+
+const notoSerif = Noto_Serif({
+  subsets: ['latin'],
+  variable: '--font-noto-serif',
+  display: 'swap',
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-plus-jakarta-sans',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: 'ambience sports',
   description: 'Simple calculators for arb / multi-stake / parlay arb.',
@@ -9,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${notoSerif.variable} ${plusJakartaSans.variable}`}>
       <body>
         <header style={{ borderBottom: '1px solid #eee' }}>
           <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

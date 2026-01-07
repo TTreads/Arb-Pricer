@@ -212,7 +212,7 @@ export default function SimpleArbPage() {
   }
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: 20, fontFamily: 'system-ui, -apple-system' }}>
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
         <h1 style={{ fontSize: 28, margin: 0 }}>Simple Arb (2-leg)</h1>
         <button onClick={reset} style={btn}>

@@ -92,13 +92,13 @@ export default function PickSizerPage() {
       if (!raw) return
       const parsed = JSON.parse(raw) as { rows: RowUI[] }
       if (parsed?.rows?.length) setRows(parsed.rows)
-    } catch {}
+    } catch { }
   }, [])
 
   useEffect(() => {
     try {
       localStorage.setItem(LS_KEY, JSON.stringify({ rows }))
-    } catch {}
+    } catch { }
   }, [rows])
 
   function loadBankrollSize(): BankrollSizeLS | null {
@@ -154,7 +154,7 @@ export default function PickSizerPage() {
   }
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: 20, fontFamily: 'system-ui, -apple-system' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
         <h1 style={{ margin: 0 }}>Pick Sizer</h1>
         <div style={{ display: 'flex', gap: 10 }}>

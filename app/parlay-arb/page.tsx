@@ -170,13 +170,13 @@ export default function ParlayArbPage() {
     try {
       const raw = localStorage.getItem(LS_KEY)
       if (raw) setGroupsUI(JSON.parse(raw))
-    } catch {}
+    } catch { }
   }, [])
 
   useEffect(() => {
     try {
       localStorage.setItem(LS_KEY, JSON.stringify(groupsUI))
-    } catch {}
+    } catch { }
   }, [groupsUI])
 
   /* ---------- computed ---------- */
@@ -200,13 +200,13 @@ export default function ParlayArbPage() {
           slips: g.slips.map((s) =>
             s.id === slipId
               ? {
-                  ...s,
-                  ...patch,
-                  promo: {
-                    ...s.promo,
-                    ...(patch.promo ?? {}),
-                  },
-                }
+                ...s,
+                ...patch,
+                promo: {
+                  ...s.promo,
+                  ...(patch.promo ?? {}),
+                },
+              }
               : s,
           ),
         }
@@ -239,7 +239,7 @@ export default function ParlayArbPage() {
   }
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: 20, fontFamily: 'system-ui, -apple-system' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
         <h1 style={{ margin: 0 }}>Parlay Arb</h1>
         <button onClick={addGroup} style={btn}>

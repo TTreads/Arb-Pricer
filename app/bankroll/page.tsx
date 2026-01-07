@@ -242,7 +242,7 @@ export default function BankrollPage() {
   }
 
   return (
-    <div style={{ maxWidth: 1000, margin: '0 auto', padding: 20, fontFamily: 'system-ui, -apple-system' }}>
+    <div style={{ maxWidth: 1000, margin: '0 auto', padding: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
         <h1 style={{ margin: 0 }}>Bankroll</h1>
       </div>

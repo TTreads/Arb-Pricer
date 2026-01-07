@@ -241,7 +241,7 @@ export default function MultiStakeArbPage() {
   }
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: 20, fontFamily: 'system-ui, -apple-system' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
         <h1 style={{ margin: 0 }}>Multi-Stake Arb (2-leg)</h1>
         <button onClick={reset} style={btn}>

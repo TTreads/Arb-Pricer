@@ -10,6 +10,26 @@ exports.id = "vendor-chunks/next";
 exports.ids = ["vendor-chunks/next"];
 exports.modules = {
 
+/***/ "(rsc)/./node_modules/next/font/google/target.css?{\"path\":\"app/layout.tsx\",\"import\":\"Noto_Serif\",\"arguments\":[{\"subsets\":[\"latin\"],\"variable\":\"--font-noto-serif\",\"display\":\"swap\"}],\"variableName\":\"notoSerif\"}":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/font/google/target.css?{"path":"app/layout.tsx","import":"Noto_Serif","arguments":[{"subsets":["latin"],"variable":"--font-noto-serif","display":"swap"}],"variableName":"notoSerif"} ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+eval("// Exports\nmodule.exports = {\n\t\"style\": {\"fontFamily\":\"'__Noto_Serif_d4b326', '__Noto_Serif_Fallback_d4b326'\",\"fontStyle\":\"normal\"},\n\t\"className\": \"__className_d4b326\",\n\t\"variable\": \"__variable_d4b326\"\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9ub2RlX21vZHVsZXMvbmV4dC9mb250L2dvb2dsZS90YXJnZXQuY3NzP3tcInBhdGhcIjpcImFwcC9sYXlvdXQudHN4XCIsXCJpbXBvcnRcIjpcIk5vdG9fU2VyaWZcIixcImFyZ3VtZW50c1wiOlt7XCJzdWJzZXRzXCI6W1wibGF0aW5cIl0sXCJ2YXJpYWJsZVwiOlwiLS1mb250LW5vdG8tc2VyaWZcIixcImRpc3BsYXlcIjpcInN3YXBcIn1dLFwidmFyaWFibGVOYW1lXCI6XCJub3RvU2VyaWZcIn0iLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBLFdBQVcsMEZBQTBGO0FBQ3JHO0FBQ0E7QUFDQSIsInNvdXJjZXMiOlsid2VicGFjazovL2FyYi1wcmljZXIvLi9ub2RlX21vZHVsZXMvbmV4dC9mb250L2dvb2dsZS90YXJnZXQuY3NzP2Y1NDciXSwic291cmNlc0NvbnRlbnQiOlsiLy8gRXhwb3J0c1xubW9kdWxlLmV4cG9ydHMgPSB7XG5cdFwic3R5bGVcIjoge1wiZm9udEZhbWlseVwiOlwiJ19fTm90b19TZXJpZl9kNGIzMjYnLCAnX19Ob3RvX1NlcmlmX0ZhbGxiYWNrX2Q0YjMyNidcIixcImZvbnRTdHlsZVwiOlwibm9ybWFsXCJ9LFxuXHRcImNsYXNzTmFtZVwiOiBcIl9fY2xhc3NOYW1lX2Q0YjMyNlwiLFxuXHRcInZhcmlhYmxlXCI6IFwiX192YXJpYWJsZV9kNGIzMjZcIlxufTtcbiJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(rsc)/./node_modules/next/font/google/target.css?{\"path\":\"app/layout.tsx\",\"import\":\"Noto_Serif\",\"arguments\":[{\"subsets\":[\"latin\"],\"variable\":\"--font-noto-serif\",\"display\":\"swap\"}],\"variableName\":\"notoSerif\"}\n");
+
+/***/ }),
+
+/***/ "(rsc)/./node_modules/next/font/google/target.css?{\"path\":\"app/layout.tsx\",\"import\":\"Plus_Jakarta_Sans\",\"arguments\":[{\"subsets\":[\"latin\"],\"variable\":\"--font-plus-jakarta-sans\",\"display\":\"swap\"}],\"variableName\":\"plusJakartaSans\"}":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/font/google/target.css?{"path":"app/layout.tsx","import":"Plus_Jakarta_Sans","arguments":[{"subsets":["latin"],"variable":"--font-plus-jakarta-sans","display":"swap"}],"variableName":"plusJakartaSans"} ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+eval("// Exports\nmodule.exports = {\n\t\"style\": {\"fontFamily\":\"'__Plus_Jakarta_Sans_646807', '__Plus_Jakarta_Sans_Fallback_646807'\",\"fontStyle\":\"normal\"},\n\t\"className\": \"__className_646807\",\n\t\"variable\": \"__variable_646807\"\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9ub2RlX21vZHVsZXMvbmV4dC9mb250L2dvb2dsZS90YXJnZXQuY3NzP3tcInBhdGhcIjpcImFwcC9sYXlvdXQudHN4XCIsXCJpbXBvcnRcIjpcIlBsdXNfSmFrYXJ0YV9TYW5zXCIsXCJhcmd1bWVudHNcIjpbe1wic3Vic2V0c1wiOltcImxhdGluXCJdLFwidmFyaWFibGVcIjpcIi0tZm9udC1wbHVzLWpha2FydGEtc2Fuc1wiLFwiZGlzcGxheVwiOlwic3dhcFwifV0sXCJ2YXJpYWJsZU5hbWVcIjpcInBsdXNKYWthcnRhU2Fuc1wifSIsIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0EsV0FBVyx3R0FBd0c7QUFDbkg7QUFDQTtBQUNBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vYXJiLXByaWNlci8uL25vZGVfbW9kdWxlcy9uZXh0L2ZvbnQvZ29vZ2xlL3RhcmdldC5jc3M/MTc1YyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBFeHBvcnRzXG5tb2R1bGUuZXhwb3J0cyA9IHtcblx0XCJzdHlsZVwiOiB7XCJmb250RmFtaWx5XCI6XCInX19QbHVzX0pha2FydGFfU2Fuc182NDY4MDcnLCAnX19QbHVzX0pha2FydGFfU2Fuc19GYWxsYmFja182NDY4MDcnXCIsXCJmb250U3R5bGVcIjpcIm5vcm1hbFwifSxcblx0XCJjbGFzc05hbWVcIjogXCJfX2NsYXNzTmFtZV82NDY4MDdcIixcblx0XCJ2YXJpYWJsZVwiOiBcIl9fdmFyaWFibGVfNjQ2ODA3XCJcbn07XG4iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(rsc)/./node_modules/next/font/google/target.css?{\"path\":\"app/layout.tsx\",\"import\":\"Plus_Jakarta_Sans\",\"arguments\":[{\"subsets\":[\"latin\"],\"variable\":\"--font-plus-jakarta-sans\",\"display\":\"swap\"}],\"variableName\":\"plusJakartaSans\"}\n");
+
+/***/ }),
+
 /***/ "(ssr)/./node_modules/next/dist/client/add-base-path.js":
 /*!********************************************************!*\
   !*** ./node_modules/next/dist/client/add-base-path.js ***!
