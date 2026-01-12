@@ -147,6 +147,7 @@ export default function SimpleArbPage() {
       const raw = localStorage.getItem(LS_KEY)
       if (!raw) return
       const parsed = JSON.parse(raw) as DraftUI
+      // eslint-disable-next-line
       if (parsed?.dog?.slip && parsed?.fav?.slip) setDraftUI(parsed)
     } catch { }
   }, [])
@@ -340,7 +341,7 @@ function SimpleLegCard({
             style={inputStyle}
           />
           {showMismatchWarning && (
-            <div style={cautionStyle}>CAUTION: Events don't match</div>
+            <div style={cautionStyle}>CAUTION: Events don&apos;t match</div>
           )}
         </Field>
       </div>

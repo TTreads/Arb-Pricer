@@ -48,7 +48,7 @@ export default function HomePage() {
 
         <ul className="small" style={{ marginTop: 8, paddingLeft: 18 }}>
           <li>All pages save your current draft, unless you clear your browser history</li>
-          <li>Bonus Bet 'efficiency' is computed based on Bonus Bet usage vs. lowest guaranteed win</li>
+          <li>Bonus Bet &apos;efficiency&apos; is computed based on Bonus Bet usage vs. lowest guaranteed win</li>
           <li>Premium version securely stores your information long-term</li>
         </ul>
       </div>

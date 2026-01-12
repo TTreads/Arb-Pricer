@@ -326,20 +326,20 @@ function normalizeEntryAny(x: any): LedgerEntry | null {
   const parlayOddsAmerican = Number.isFinite(Number(x.parlayOddsAmerican)) ? Number(x.parlayOddsAmerican) : undefined
   const parlayLegs: ParlayLeg[] | undefined = Array.isArray(x.parlayLegs)
     ? (x.parlayLegs as any[])
-        .map((l) => {
-          if (!l || typeof l !== 'object') return null
-          return {
-            id: typeof l.id === 'string' ? l.id : crypto.randomUUID(),
-            event: typeof l.event === 'string' ? l.event : '',
-            selection: typeof l.selection === 'string' ? l.selection : '',
-            market:
-              l.market === 'moneyline' || l.market === 'spread' || l.market === 'total' || l.market === 'prop' || l.market === 'parlay' || l.market === 'other'
-                ? l.market
-                : 'other',
-            oddsAmerican: Number.isFinite(Number(l.oddsAmerican)) ? Number(l.oddsAmerican) : 0,
-          } satisfies ParlayLeg
-        })
-        .filter(Boolean) as ParlayLeg[]
+      .map((l) => {
+        if (!l || typeof l !== 'object') return null
+        return {
+          id: typeof l.id === 'string' ? l.id : crypto.randomUUID(),
+          event: typeof l.event === 'string' ? l.event : '',
+          selection: typeof l.selection === 'string' ? l.selection : '',
+          market:
+            l.market === 'moneyline' || l.market === 'spread' || l.market === 'total' || l.market === 'prop' || l.market === 'parlay' || l.market === 'other'
+              ? l.market
+              : 'other',
+          oddsAmerican: Number.isFinite(Number(l.oddsAmerican)) ? Number(l.oddsAmerican) : 0,
+        } satisfies ParlayLeg
+      })
+      .filter(Boolean) as ParlayLeg[]
     : undefined
 
   const promoType: PromoType =
@@ -526,6 +526,7 @@ export default function BookPage() {
     const match = resolveBookBySlug(books, bookSlug)
 
     if (!match) {
+      // eslint-disable-next-line
       setBookId(null)
       setBookName('Unknown Sportsbook')
       setStartingBalance(0)
@@ -549,7 +550,7 @@ export default function BookPage() {
       const normalizedAll = store.entries.map((x: any) => normalizeEntryAny(x)).filter(Boolean) as LedgerEntry[]
       const keepOthers = normalizedAll.filter((e) => e.bookId !== bookId)
       safeSaveLedger({ entries: [...keepOthers, ...entries], updatedAt: new Date().toISOString() })
-    } catch {}
+    } catch { }
   }, [entries, bookId])
 
   const balance = useMemo(() => {

@@ -105,6 +105,7 @@ export default function BankrollPage() {
   /* ---------- load ---------- */
   useEffect(() => {
     const ls = loadBooksLS()
+    // eslint-disable-next-line
     setCashroll(ls.cashroll ?? 0)
     setBooks(ls.books ?? [])
   }, [])

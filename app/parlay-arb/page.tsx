@@ -169,6 +169,7 @@ export default function ParlayArbPage() {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(LS_KEY)
+      // eslint-disable-next-line
       if (raw) setGroupsUI(JSON.parse(raw))
     } catch { }
   }, [])

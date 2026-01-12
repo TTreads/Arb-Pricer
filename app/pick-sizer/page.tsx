@@ -123,48 +123,6 @@ export default function PickSizerPage() {
   // ✅ per-row "edit amount" toggle
   const [editingAmountIds, setEditingAmountIds] = useState<Record<string, boolean>>({})
 
-  /* ---------- persistence ---------- */
-  useEffect(() => {
-    const bs = loadBankrollSize()
-    if (bs) {
-      setBankrollLocked(bs.bankroll)
-      setBankrollDraft(String(bs.bankroll))
-    } else {
-      setBankrollLocked(0)
-      setBankrollDraft('0')
-    }
-
-    try {
-      const raw = localStorage.getItem(LS_KEY)
-      if (!raw) return
-      const parsed = JSON.parse(raw) as { rows: RowUI[] }
-      if (parsed?.rows?.length) {
-        setRows(
-          parsed.rows.map((r) => ({
-            ...newRow(),
-            ...r,
-            playType: (r as any).playType ?? 'pre',
-            amountOverride: (r as any).amountOverride ?? '',
-            status: (r as any).status ?? 'draft',
-            submittedAt: (r as any).submittedAt,
-          }))
-        )
-      }
-    } catch {}
-
-    try {
-      setDayLogs(loadDayLogs())
-    } catch {}
-
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(LS_KEY, JSON.stringify({ rows }))
-    } catch {}
-  }, [rows])
-
   function loadBankrollSize(): BankrollSizeLS | null {
     try {
       const raw = localStorage.getItem(BANKROLL_KEY)
@@ -191,6 +149,49 @@ export default function PickSizerPage() {
     }
     localStorage.setItem(BANKROLL_KEY, JSON.stringify(payload))
   }
+
+  /* ---------- persistence ---------- */
+  useEffect(() => {
+    const bs = loadBankrollSize()
+    if (bs) {
+      // eslint-disable-next-line
+      setBankrollLocked(bs.bankroll)
+      setBankrollDraft(String(bs.bankroll))
+    } else {
+      setBankrollLocked(0)
+      setBankrollDraft('0')
+    }
+
+    try {
+      const raw = localStorage.getItem(LS_KEY)
+      if (!raw) return
+      const parsed = JSON.parse(raw) as { rows: RowUI[] }
+      if (parsed?.rows?.length) {
+        setRows(
+          parsed.rows.map((r) => ({
+            ...newRow(),
+            ...r,
+            playType: (r as any).playType ?? 'pre',
+            amountOverride: (r as any).amountOverride ?? '',
+            status: (r as any).status ?? 'draft',
+            submittedAt: (r as any).submittedAt,
+          }))
+        )
+      }
+    } catch { }
+
+    try {
+      setDayLogs(loadDayLogs())
+    } catch { }
+
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({ rows }))
+    } catch { }
+  }, [rows])
 
   /* ---------- computed ---------- */
   const computed = useMemo(() => {
@@ -220,7 +221,7 @@ export default function PickSizerPage() {
   )
 
   // ✅ Today's picks
-  const todayKey = useMemo(() => getTodayDayKey(), [dayLogs])
+  const todayKey = useMemo(() => getTodayDayKey(), [])
   const todaysLogged = useMemo(
     () => dayLogs?.[todayKey]?.picks ?? loadTodaysPicks(),
     [dayLogs, todayKey]

@@ -159,6 +159,7 @@ export default function MultiStakeArbPage() {
       const raw = localStorage.getItem(LS_KEY)
       if (!raw) return
       const parsed = JSON.parse(raw) as DraftUI
+      // eslint-disable-next-line
       if (parsed?.dog?.slips && parsed?.fav?.slips) setDraftUI(parsed)
     } catch { }
   }, [])

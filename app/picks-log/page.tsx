@@ -26,6 +26,7 @@ export default function PicksLogPage() {
   const [days, setDays] = useState<DayLog[]>([])
 
   useEffect(() => {
+    // eslint-disable-next-line
     setDays(listDayLogsSortedDesc())
     setMounted(true)
   }, [])
