@@ -433,8 +433,13 @@ function SimpleLegCard({
         </Field>
 
         <div style={{ marginTop: 8, fontSize: 13, opacity: 0.85 }}>
+          Total Payout: <b>${(computedSlip?.payout ?? 0).toFixed(2)}</b>
+        </div>
+
+        <div style={{ marginTop: 4, fontSize: 13, opacity: 0.85 }}>
           Net Payout (this leg): <b>${(computedSlip?.netPayout ?? 0).toFixed(2)}</b>
         </div>
+
       </div>
     </div>
   )
