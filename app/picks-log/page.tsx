@@ -129,5 +129,3 @@ const hl: React.CSSProperties = {
   marginTop: 14,
   borderTop: '1px solid #eee',
 }
-
-/* Additional Updates */
